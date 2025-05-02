@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "com_backend": {
+      "candid": "src/com_backend/com_backend.did",
+      "package": "com_backend",
+      "type": "rust"
+    },
+    "com_frontend": {
+      "dependencies": [
+        "com_backend"
+      ],
+      "source": [
+        "src/com_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "com_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
