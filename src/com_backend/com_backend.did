@@ -1,3 +1,62 @@
+type UserResponseDto = record {
+  id: nat64;
+  username: text;
+};
+
+type AuthResponseDto = record {
+  token: text;
+};
+
+type GenericResponseText = record {
+  data: text;
+  message: text;
+  status: nat16;
+};
+
+type GenericResponseAuth = record {
+  data: AuthResponseDto;
+  message: text;
+  status: nat16;
+};
+
+type GenericResponseUser = record {
+  data: vec UserResponseDto;
+  message: text;
+  status: nat16;
+};
+
+type GenericResponseKeys = record {
+  data: vec text;
+  message: text;
+  status: nat16;
+};
+
+type ResponseText = variant {
+  Ok: GenericResponseText;
+  Err: GenericResponseText;
+};
+
+type ResponseAuth = variant {
+  Ok: GenericResponseAuth;
+  Err: GenericResponseAuth;
+};
+
+type ResponseUser = variant {
+  Ok: GenericResponseUser;
+  Err: GenericResponseUser;
+};
+
+type ResponseKeys = variant {
+  Ok: GenericResponseKeys;
+  Err: GenericResponseKeys;
+};
+
 service : {
-    "greet": (text) -> (text) query;
+  signup: (text, text) -> (ResponseText);
+  signin: (text, text) -> (ResponseAuth) query;
+  protected_endpoint: (text) -> (ResponseText) query;
+  list_user: (text) -> (ResponseUser) query;
+  debug_user_storage: () -> (ResponseKeys) query;
+  clear_user_storage: () -> (ResponseText);
+  debug_storage_keys: () -> (ResponseKeys) query;
 }

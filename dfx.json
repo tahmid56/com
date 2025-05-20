@@ -3,7 +3,10 @@
     "com_backend": {
       "candid": "src/com_backend/com_backend.did",
       "package": "com_backend",
-      "type": "rust"
+      "type": "rust",
+      "settings": {
+        "http_request": true
+      }
     },
     "com_frontend": {
       "dependencies": [
