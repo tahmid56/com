@@ -1,62 +1,89 @@
-type UserResponseDto = record {
-  id: nat64;
-  username: text;
-};
-
 type AuthResponseDto = record {
-  token: text;
+    token: text;
 };
 
-type GenericResponseText = record {
-  data: text;
-  message: text;
-  status: nat16;
+type UserResponseDto = record {
+    id: nat64;
+    username: text;
 };
 
-type GenericResponseAuth = record {
-  data: AuthResponseDto;
-  message: text;
-  status: nat16;
+type BlogResponseDto = record {
+    id: nat64;
+    title: text;
+    content: text;
+    published: bool;
+    created_by: nat64;
+    created_at: nat64;
 };
 
-type GenericResponseUser = record {
-  data: vec UserResponseDto;
-  message: text;
-  status: nat16;
+type ErrorResponseDto = record {
+    message: text;
+    status: nat16;
 };
 
-type GenericResponseKeys = record {
-  data: vec text;
-  message: text;
-  status: nat16;
+type GenericResponseDtoString = record {
+    data: text;
+    message: text;
+    status: nat16;
 };
 
-type ResponseText = variant {
-  Ok: GenericResponseText;
-  Err: GenericResponseText;
+type GenericResponseDtoAuth = record {
+    data: AuthResponseDto;
+    message: text;
+    status: nat16;
 };
 
-type ResponseAuth = variant {
-  Ok: GenericResponseAuth;
-  Err: GenericResponseAuth;
+type GenericResponseDtoUserVec = record {
+    data: vec UserResponseDto;
+    message: text;
+    status: nat16;
 };
 
-type ResponseUser = variant {
-  Ok: GenericResponseUser;
-  Err: GenericResponseUser;
+type GenericResponseDtoBlog = record {
+    data: BlogResponseDto;
+    message: text;
+    status: nat16;
 };
 
-type ResponseKeys = variant {
-  Ok: GenericResponseKeys;
-  Err: GenericResponseKeys;
+type GenericResponseDtoBlogVec = record {
+    data: vec BlogResponseDto;
+    message: text;
+    status: nat16;
+};
+
+type ResponseDtoString = variant {
+    Ok: GenericResponseDtoString;
+    Err: ErrorResponseDto;
+};
+
+type ResponseDtoAuth = variant {
+    Ok: GenericResponseDtoAuth;
+    Err: ErrorResponseDto;
+};
+
+type ResponseDtoUserVec = variant {
+    Ok: GenericResponseDtoUserVec;
+    Err: ErrorResponseDto;
+};
+
+type ResponseDtoBlog = variant {
+    Ok: GenericResponseDtoBlog;
+    Err: ErrorResponseDto;
+};
+
+type ResponseDtoBlogVec = variant {
+    Ok: GenericResponseDtoBlogVec;
+    Err: ErrorResponseDto;
 };
 
 service : {
-  signup: (text, text) -> (ResponseText);
-  signin: (text, text) -> (ResponseAuth) query;
-  protected_endpoint: (text) -> (ResponseText) query;
-  list_user: (text) -> (ResponseUser) query;
-  debug_user_storage: () -> (ResponseKeys) query;
-  clear_user_storage: () -> (ResponseText);
-  debug_storage_keys: () -> (ResponseKeys) query;
+    signup: (username: text, password: text) -> (ResponseDtoString);
+    signin: (username: text, password: text) -> (ResponseDtoAuth);
+    protected_endpoint: (token: text) -> (ResponseDtoString) query;
+    list_user: (token: text) -> (ResponseDtoUserVec) query;
+    debug_user_storage: () -> (ResponseDtoUserVec) query;
+    clear_user_storage: () -> (ResponseDtoString);
+    debug_storage_keys: () -> (ResponseDtoUserVec) query;
+    create_blog: (token: text, title: text, content: text, published: bool) -> (ResponseDtoBlog);
+    list_blogs: (token: text) -> (ResponseDtoBlogVec) query;
 }
