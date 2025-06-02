@@ -13,6 +13,9 @@ pub struct Blog {
     pub created_by: u64,
     pub created_at: u64, 
     pub deleted_at: Option<u64>,
+    pub categories: Option<String>,
+    pub updated_at: Option<u64>,
+    pub updated_by: Option<u64>,
 }
 
 impl Storable for Blog{
@@ -27,7 +30,7 @@ impl Storable for Blog{
     }
     
     const BOUND: Bound = Bound::Bounded {
-        max_size: 4096, 
+        max_size: 32_768, 
         is_fixed_size: false,
     };
 }

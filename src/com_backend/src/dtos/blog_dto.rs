@@ -11,4 +11,5 @@ pub struct BlogResponseDto {
     pub published: bool,
     pub created_by: u64,
     pub created_at: u64,
+    pub categories: Option<String>,
 }

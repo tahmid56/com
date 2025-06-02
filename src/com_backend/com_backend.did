@@ -14,6 +14,7 @@ type BlogResponseDto = record {
     published: bool;
     created_by: nat64;
     created_at: nat64;
+    categories: opt text;
 };
 
 type ErrorResponseDto = record {
@@ -84,6 +85,8 @@ service : {
     debug_user_storage: () -> (ResponseDtoUserVec) query;
     clear_user_storage: () -> (ResponseDtoString);
     debug_storage_keys: () -> (ResponseDtoUserVec) query;
-    create_blog: (token: text, title: text, content: text, published: bool) -> (ResponseDtoBlog);
+    create_blog: (token: text, title: text, content: text, published: bool, categories: opt text) -> (ResponseDtoBlog);
     list_blogs: (token: text) -> (ResponseDtoBlogVec) query;
+    delete_blog: (token: text, blog_id: nat64) -> (ResponseDtoString);
+    update_blog: (token: text, id: nat64, title: opt text, content: opt text, published: opt bool, categories: opt text) -> (ResponseDtoBlog);
 }
